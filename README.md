@@ -47,14 +47,14 @@ Before you begin, ensure you have the following installed:
 
 ### 1. Clone the Repository
 
-\`\`\`bash
+```bash
 git clone https://github.com/yourusername/whyimbroke.git
 cd whyimbroke
-\`\`\`
+```
 
 ### 2. Frontend Setup
 
-\`\`\`bash
+```bash
 # Navigate to client directory
 cd client
 
@@ -66,11 +66,11 @@ cp .env.example .env
 
 # Start development server
 npm run dev
-\`\`\`
+```
 
 ### 3. Backend Setup
 
-\`\`\`bash
+```bash
 # Navigate to server directory
 cd server
 
@@ -82,29 +82,30 @@ cp .env.example .env
 
 # Start development server
 npm run dev
-\`\`\`
+```
 
 ### 4. Environment Variables
 
 #### Frontend (.env)
-\`\`\`env
+```env
 VITE_API_URL=http://localhost:5000
 VITE_PLAID_ENV=sandbox
-\`\`\`
+```
 
 #### Backend (.env)
-\`\`\`env
-PORT=5000
-MONGODB_URI=mongodb://localhost:27017/whyimbroke
+```env
+PORT=8800
+MONGODB_URI=ask Gurleen
+MONGODB_URI_LOCAL=mongodb://localhost:27017/whyimbroke
 JWT_SECRET=your_jwt_secret
 PLAID_CLIENT_ID=your_plaid_client_id
 PLAID_SECRET=your_plaid_secret
 PLAID_ENV=sandbox
-\`\`\`
+```
 
 ## 🧪 Testing
 
-\`\`\`bash
+```bash
 # Run frontend tests
 cd client
 npm run test
@@ -112,14 +113,14 @@ npm run test
 # Run backend tests
 cd server
 npm run test
-\`\`\`
+```
 
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create your feature branch (\`git checkout -b feature/AmazingFeature\`)
-3. Commit your changes (\`git commit -m 'Add some AmazingFeature'\`)
-4. Push to the branch (\`git push origin feature/AmazingFeature\`)
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
 ## 📝 License
@@ -128,7 +129,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👥 Authors
 
-- Your Name - Initial work - [YourGitHub](https://github.com/yourusername)
+- Gurleen Wadhwa -> [GitHub](https://github.com/gurleenwadhwa-13)
 
 ## 🙏 Acknowledgments
 
