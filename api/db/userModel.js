@@ -26,6 +26,7 @@ const userSchema = new mongoose.Schema({
         },
         timezone: {
             type: String,
+            default: 'ADT',
             required: false,
         },
         notification: {
