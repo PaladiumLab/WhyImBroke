@@ -8,6 +8,9 @@ import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 
+import userRouter from './routes/userRoutes.js';  // Note the .js extension
+
+
 dotenv.config();
 
 // Connect to MongoDB
@@ -26,6 +29,8 @@ app.use(mongoSanitize()); // Prevent NoSQL injection
 // app.use('/api/v1/users', userRoutes);
 // app.use('/api/v1/transactions', transactionRoutes);
 // app.use('/api/v1/budgets', budgetRoutes);
+
+app.use(userRouter);
 
 // Rate limiting
 const limiter = rateLimit({

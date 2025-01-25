@@ -38,18 +38,18 @@ const userSchema = new mongoose.Schema({
     timestamps: true
 });
 
-//User logic to hash passwords
-userSchema.pre('save', async (next) => {
-    if (!this.isModified('password')) return next();
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
-    console.log('Hashed Password: ', hash);
-    next();
-})
+// //User logic to hash passwords
+// userSchema.pre('save', async (next) => {
+//     if (!this.isModified('password')) return next();
+//     const salt = await bcrypt.genSalt(10);
+//     this.password = await bcrypt.hash(this.password, salt);
+//     console.log('Hashed Password: ', hash);
+//     next();
+// })
 
-// Match password during login
-UserSchema.methods.matchPassword = async function (enteredPassword) {
-    return await bcrypt.compare(enteredPassword, this.password);
-};
+// // Match password during login
+// UserSchema.methods.matchPassword = async function (enteredPassword) {
+//     return await bcrypt.compare(enteredPassword, this.password);
+// };
 
-module.exports = mongoose.model('Users', userSchema);
+export default mongoose.model('Users', userSchema);
