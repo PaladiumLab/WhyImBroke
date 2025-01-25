@@ -5,3 +5,6 @@ node_modules/
 **/.env
 **/.env.local
 **/.env.*.local
+
+#JWT secret file
+secret.js

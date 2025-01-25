@@ -1,8 +1,7 @@
-// const { Router } = require("express");
-// const { Users } = require("../db/userModel");
-
 import { Router } from "express";
 import Users from "../db/userModel.js";
+import jwt from "jsonwebtoken"
+import JWT_SECRET from "../config/secret.js"
 
 const router = Router();
 
@@ -34,5 +33,33 @@ router.post("/api/v1/auth/signup", async ( req,res ) => {
         })
     }
 });
+
+router.post("/api/v1/auth/login", async (req,res) => {
+    const { email, password} = req.body;
+
+    try {
+        const user = await Users.findOne({
+            email: email,
+            password: password
+        });
+
+        if(user !== null || user !== undefined){
+            var token = jwt.sign({email}, JWT_SECRET);
+
+            res.status(200).json({
+                token: token,
+                message: "User Loggedin Successfully!"
+            })
+        }else{
+            res.status(401).json({
+                error: "Invalid credentials or User does not exist!"
+            })
+        }
+    } catch (error) {
+        res.status(404).json({
+            error: error
+        })
+    }
+})
 
 export default router;
