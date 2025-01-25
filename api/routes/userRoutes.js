@@ -2,6 +2,7 @@ import { Router } from "express";
 import Users from "../db/userModel.js";
 import jwt from "jsonwebtoken"
 import JWT_SECRET from "../config/secret.js"
+import authMiddleware from "../middlewares/authMiddleware.js"
 
 const router = Router();
 
@@ -57,6 +58,27 @@ router.post("/api/v1/auth/login", async (req,res) => {
         }
     } catch (error) {
         res.status(404).json({
+            error: error
+        })
+    }
+})
+
+router.get("/api/v1/auth/me", authMiddleware ,async (req,res) => {
+    const email = req.email;
+    try {
+        const user = await Users.findOne({email: email});
+        console.log(user);
+        if(user !== null || user !== undefined){
+            res.status(200).json({
+                user: user
+            })
+        }else{
+            res.status(401).json({
+                error: "There is an error in retrieving Account Details at the moment!"
+            })
+        }
+    } catch (error) {
+        res.status(200).json({
             error: error
         })
     }
