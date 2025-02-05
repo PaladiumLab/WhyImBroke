@@ -1,6 +1,5 @@
 import { GalleryVerticalEnd } from "lucide-react"
-import { LoginForm } from "@/components/login-form"
-import { ModeToggle } from "@/components/mode-toggle";
+import { LoginForm } from "@/components/login/login-form"
 
 export default function LoginPage() {
   return (
