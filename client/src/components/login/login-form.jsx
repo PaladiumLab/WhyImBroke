@@ -1,3 +1,14 @@
+//Hooks and libraries in use
+import { useState } from "react";
+import { useRecoilValue } from "recoil";
+import useAuth from "../../hooks/useAuth/useAuth";
+import { useNavigation } from "react-router-dom";
+
+//Atoms in use.
+import { userAtom } from "../../state/atoms/userAtom";
+import { authAtom } from "../../state/atoms/authAtom";
+
+//ShadCN UI components in use
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -14,6 +25,37 @@ export function LoginForm({
   className,
   ...props
 }) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const isAuthenticated = useRecoilValue(authAtom);
+  const currentUser = useRecoilValue(userAtom);
+  // const isAuthenticatedSelector = useRecoilValue(isAuthenticatedSelector);
+  // const navigate = useNavigation();
+
+  //We use the login arrow function to do our login call.
+  const { login } = useAuth();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    try {
+      const res = await login(email, password);
+      //TODO, we need to navigate to the Home Route Here, this also needs to be a private route. 
+
+      // if(isAuthenticatedSelector){
+      //   navigate("/home");
+      // }
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     (<div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -24,7 +66,7 @@ export function LoginForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="grid gap-6">
               <div className="flex flex-col gap-4">
                 <Button variant="outline" className="w-full">
@@ -53,7 +95,13 @@ export function LoginForm({
               <div className="grid gap-6">
                 <div className="grid gap-2">
                   <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="email" placeholder="m@example.com" required />
+                  <Input 
+                    id="email"
+                    type="email"
+                    placeholder="m@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required />
                 </div>
                 <div className="grid gap-2">
                   <div className="flex items-center">
@@ -62,10 +110,15 @@ export function LoginForm({
                       Forgot your password?
                     </a>
                   </div>
-                  <Input id="password" type="password" required />
+                  <Input
+                    id="password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required />
                 </div>
-                <Button type="submit" className="w-full bg-black text-white hover:bg-gray-800">
-                  Login
+                <Button type="submit" className="w-full bg-black text-white hover:bg-gray-800" disabled={loading}>
+                  {loading ? 'Logging in...' : 'Login'}
                 </Button>
               </div>
               <div className="text-center text-sm">
