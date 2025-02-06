@@ -5,6 +5,7 @@ node_modules/
 **/.env
 **/.env.local
 **/.env.*.local
+**/.env.staging
 
 #JWT secret file
 secret.js
