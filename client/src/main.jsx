@@ -1,13 +1,13 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import { RecoilRoot } from 'recoil';
 import './styles/globals.css'
 
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import LoginPage from './pages/Login/loginpage.jsx';
-import Dashboard from './pages/Dashboard/Dashboard.jsx'
-import { ThemeProvider } from './components/dark-mode-provider/theme-provider';
-import { RecoilRoot } from 'recoil';
+import { ThemeProvider } from './helper/dark-mode-provider/theme-provider';
 import PrivateRoute from './helper/private-route/private-route.jsx';
+import DashboardPage from './pages/Dashboard/DashboardPage.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -16,7 +16,7 @@ createRoot(document.getElementById('root')).render(
           <BrowserRouter>
             <Routes>
               <Route element={<PrivateRoute/>}>
-                <Route path="/" element={<Dashboard/>} />
+                <Route path="/" element={<DashboardPage/>} />
               </Route>
 
               <Route path="/login" element={<LoginPage />} />
