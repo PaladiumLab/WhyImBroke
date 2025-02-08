@@ -5,7 +5,7 @@ import { atom, selector } from "recoil";
 export const authAtom = atom({
   key: "authState",
   default: {
-    token: null,
+    token: localStorage.getItem("authToken") || null,
     isAuthenticated: false,
   },
 });

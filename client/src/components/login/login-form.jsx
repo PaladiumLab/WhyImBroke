@@ -1,12 +1,13 @@
 //Hooks and libraries in use
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRecoilValue } from "recoil";
+import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth/useAuth";
-import { useNavigation } from "react-router-dom";
 
 //Atoms in use.
 import { userAtom } from "../../state/atoms/userAtom";
 import { authAtom } from "../../state/atoms/authAtom";
+import { isAuthenticatedSelector } from "../../state/atoms/authAtom";
 
 //ShadCN UI components in use
 import { cn } from "@/lib/utils"
@@ -29,13 +30,19 @@ export function LoginForm({
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const isAuthenticated = useRecoilValue(authAtom);
   const currentUser = useRecoilValue(userAtom);
-  // const isAuthenticatedSelector = useRecoilValue(isAuthenticatedSelector);
-  // const navigate = useNavigation();
+  const isAuthenticated = useRecoilValue(isAuthenticatedSelector);
 
-  //We use the login arrow function to do our login call.
+  //We use the login arrow function in the useAuth to do our login call.
   const { login } = useAuth();
+  const navigate = useNavigate();
+
+  // Navigate as soon as authentication state becomes true
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,12 +50,7 @@ export function LoginForm({
     setError("");
 
     try {
-      const res = await login(email, password);
-      //TODO, we need to navigate to the Home Route Here, this also needs to be a private route. 
-
-      // if(isAuthenticatedSelector){
-      //   navigate("/home");
-      // }
+      await login(email, password);
     } catch (error) {
       setError(error.message);
     } finally {

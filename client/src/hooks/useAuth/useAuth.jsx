@@ -1,7 +1,6 @@
 import { useSetRecoilState } from "recoil";
 import { authAtom } from "../../state/atoms/authAtom";
 import { userAtom } from "../../state/atoms/userAtom";
-import process from "process";
 import axios from 'axios';
 
 function useAuth(){
@@ -11,18 +10,19 @@ function useAuth(){
 
     const login = async (email, password) => {
         try {
-            const { data } = await axios.post(queryURL, {email, password});
+            const data = await axios.post(queryURL, {email, password});
 
             //We assume that request went through, we can set the email, and token to the user and auth atoms
             setAuth({
-                token: data.token,
+                token: data.data.token,
                 isAuthenticated: true
             });
 
             //TODO: We also need to store the token in the localStorage or as cookies.
-            localStorage.setItem('authToken', data.token);
+            localStorage.setItem('authToken', data.data.token);
 
-            setUser({email: data.email, name: data.name});
+            //TODO: need to make changes here, it is currently undefined, because json webtoken is not currently decoded.
+            // setUser({email: data.email, name: data.name});
 
             return data;
         } catch (error) {
