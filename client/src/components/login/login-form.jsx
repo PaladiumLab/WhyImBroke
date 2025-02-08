@@ -52,7 +52,7 @@ export function LoginForm({
     try {
       await login(email, password);
     } catch (error) {
-      setError(error.message);
+      setError(error.message || "Login failed. Please try again.");
     } finally {
       setLoading(false);
     }
