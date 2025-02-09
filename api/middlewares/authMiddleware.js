@@ -6,11 +6,9 @@ function authMiddleware(req, res, next) {
     const token = req.headers.authorization;
     const words = token.split(" ");
     const jwtToken = words[1];
-    console.log(jwtToken);
 
     //Now we verify and decode the JWT token to authenticate the user
     const decodedToken = jwt.verify(jwtToken, process.env.JWT_SECRET);
-    console.log(decodedToken);
 
     //If an email is
     if(decodedToken.email){

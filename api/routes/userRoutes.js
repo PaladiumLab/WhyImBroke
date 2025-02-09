@@ -41,7 +41,6 @@ router.post("/api/v1/auth/login", async (req,res) => {
         // 1. Find the user by email ONLY.  We also need to explicitly select the password field
         //    because we set 'select: false' in the schema to hide it by default.
         const user = await Users.findOne({email: email}).select('+password');
-        console.log(user);
 
         if(user === null || user === undefined || !user){
             res.status(401).json({
@@ -51,7 +50,6 @@ router.post("/api/v1/auth/login", async (req,res) => {
 
         //Checking if the user's input password and matchPassword function returns true
         const isPasswordMatch = await user.matchPassword(password);
-        console.log(isPasswordMatch);
 
         if(isPasswordMatch){
             var token = jwt.sign({email}, process.env.JWT_SECRET);
