@@ -1,7 +1,6 @@
 import { Router } from "express";
 import Users from "../db/userModel.js";
 import jwt from "jsonwebtoken"
-import JWT_SECRET from "../config/secret.js"
 import authMiddleware from "../middlewares/authMiddleware.js"
 
 const router = Router();
@@ -39,23 +38,34 @@ router.post("/api/v1/auth/login", async (req,res) => {
     const { email, password} = req.body;
 
     try {
-        const user = await Users.findOne({
-            email: email,
-            password: password
-        });
+        // 1. Find the user by email ONLY.  We also need to explicitly select the password field
+        //    because we set 'select: false' in the schema to hide it by default.
+        const user = await Users.findOne({email: email}).select('+password');
+        console.log(user);
 
-        if(user !== null || user !== undefined){
-            var token = jwt.sign({email}, JWT_SECRET);
+        if(user === null || user === undefined || !user){
+            res.status(401).json({
+                error: "Invalid credentials or User does not exist!"
+            })
+        }
+
+        //Checking if the user's input password and matchPassword function returns true
+        const isPasswordMatch = await user.matchPassword(password);
+        console.log(isPasswordMatch);
+
+        if(isPasswordMatch){
+            var token = jwt.sign({email}, process.env.JWT_SECRET);
 
             res.status(200).json({
                 token: token,
-                message: "User Loggedin Successfully!"
+                message: "User Logged in Successfully!"
             })
         }else{
             res.status(401).json({
                 error: "Invalid credentials or User does not exist!"
             })
         }
+
     } catch (error) {
         res.status(404).json({
             error: error

@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-import JWT_SECRET from "../config/secret.js";
 import Users from "../db/userModel.js";
 
 function authMiddleware(req, res, next) {
@@ -10,7 +9,7 @@ function authMiddleware(req, res, next) {
     console.log(jwtToken);
 
     //Now we verify and decode the JWT token to authenticate the user
-    const decodedToken = jwt.verify(jwtToken, JWT_SECRET);
+    const decodedToken = jwt.verify(jwtToken, process.env.JWT_SECRET);
     console.log(decodedToken);
 
     //If an email is
