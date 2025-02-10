@@ -44,19 +44,23 @@ export function LoginForm({
     }
   }, [isAuthenticated, navigate]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
+  const handleSubmit = useCallBack( async (e) => {
+      e.preventDefault();
+      setLoading(true);
+      setError("");
 
-    try {
-      await login(email, password);
-    } catch (error) {
-      setError(error.message || "Login failed. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  }
+      try {
+        await login(email, password);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+  }, [])
+
+  const handleChange = (field) => (e) => {
+    setCredentials(prev => ({ ...prev, [field]: e.target.value }));
+  };
 
   return (
     (<div className={cn("flex flex-col gap-6", className)} {...props}>
