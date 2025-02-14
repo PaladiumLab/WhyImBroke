@@ -92,4 +92,8 @@ router.get("/api/v1/auth/me", authMiddleware ,async (req,res) => {
     }
 })
 
+router.put("/api/v1/auth/update_user/:user_id", authMiddleware, async (req,res) => {
+    
+})
+
 export default router;

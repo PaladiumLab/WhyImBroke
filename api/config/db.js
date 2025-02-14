@@ -15,4 +15,12 @@ const connectDB = async () => {
   }
 };
 
+mongoose.connection.on('connecting', () => {
+  console.log('Attempting MongoDB connection...')
+})
+
+mongoose.connection.on('error', (err) => {
+  console.error('Connection error:', err)
+})
+
 export default connectDB;
