@@ -44,19 +44,34 @@ export function LoginForm({
     }
   }, [isAuthenticated, navigate]);
 
-  const handleSubmit = useCallBack( async (e) => {
-      e.preventDefault();
+  // const handleSubmit = useCallBack( async (e) => {
+  //     e.preventDefault();
+  //     setLoading(true);
+  //     setError("");
+
+  //     try {
+  //       await login(email, password);
+  //     } catch (error) {
+  //       setError(error.message);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  // }, [])
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
       setLoading(true);
       setError("");
 
       try {
+        console.log("control reaches here");
         await login(email, password);
       } catch (error) {
         setError(error.message);
       } finally {
         setLoading(false);
       }
-  }, [])
+  }
 
   const handleChange = (field) => (e) => {
     setCredentials(prev => ({ ...prev, [field]: e.target.value }));
