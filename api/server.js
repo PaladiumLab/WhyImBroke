@@ -7,8 +7,7 @@ import mongoSanitize from 'express-mongo-sanitize';
 import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
-
-import userRouter from './routes/userRoutes.js';  // Note the .js extension
+import rootRouter from './routes/rootRouter.js';
 
 
 dotenv.config();
@@ -30,7 +29,7 @@ app.use(mongoSanitize()); // Prevent NoSQL injection
 // app.use('/api/v1/transactions', transactionRoutes);
 // app.use('/api/v1/budgets', budgetRoutes);
 
-app.use(userRouter);
+app.use('/api/v1',rootRouter);
 
 // Rate limiting
 const limiter = rateLimit({
