@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+      "target": "ESNext",
+      "module": "NodeNext",
+      "moduleResolution": "NodeNext",
+      "jsx": "react-jsx",
+      "strict": false,
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "outDir": "dist/client",
+      "rootDir": "src/client",
+      "baseUrl": "src",
+      "noImplicitAny": false,
+      "allowArbitraryExtensions": true,
+      "paths": {
+        "@/*": ["client/*"],
+        "@/components/*": ["client/components/*"],
+        "@/lib/*": ["client/lib/*"],
+        "@/pages/*": ["client/pages/*"],
+        "@/helper/*": ["client/helper/*"]
+      }
+    },
+    "include": ["src/client/**/*", "src/shared/**/*"],
+    "exclude": ["node_modules", "dist"]
+  }
