@@ -58,14 +58,14 @@ export function LoginForm({
   //     }
   // }, [])
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
       setLoading(true);
       setError("");
 
       try {
         console.log("control reaches here");
-        await login(email, password);
+        login(email, password);
       } catch (error) {
         setError(error.message);
       } finally {

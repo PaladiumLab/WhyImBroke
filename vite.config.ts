@@ -8,21 +8,19 @@ export default defineConfig({
   css: {
     postcss: "postcss.config.ts"
   },
-  server: {
-    port: 5173, // Or 5174 if that’s what Vite picked
-    proxy: {
-      '/api': 'http://localhost:5000'
-    }
-  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src/client'),
-      "client": "/src/client",
-      "api": "/src/api",
-      "shared": "/src/shared"
+      'client': path.resolve(__dirname, './src/client'),
+      'api': path.resolve(__dirname, './src/api'),
+      'shared': path.resolve(__dirname, './src/shared')
+      // "client": "/src/client",
+      // "api": "/src/api",
+      // "shared": "/src/shared"
     },
   },
   build: {
     outDir: "../../dist/client"
-  }
+  },
+  envDir: "../../"
 })

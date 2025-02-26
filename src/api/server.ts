@@ -14,7 +14,8 @@ interface CustomError extends Error {
 }
 
 // Load environment variables
-dotenv.config();
+dotenv.config()
+console.log(dotenv.config());
 
 // Connect to MongoDB
 connectDB();
@@ -50,9 +51,10 @@ const errorHandler: ErrorRequestHandler = (err: CustomError, req: Request, res: 
 app.use(errorHandler);
 
 // Start the server
-const PORT: number | string = process.env.PORT || 3000;
+const PORT = process.env.BACKEND_PORT;
+console.log(PORT);
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
-export default app; // Optional: Export for testing or future use
+export default app;
