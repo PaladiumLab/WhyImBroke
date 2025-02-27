@@ -1,5 +1,6 @@
 //Author: Gurleen Wadhwa.
 //Required Packages
+import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 
