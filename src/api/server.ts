@@ -15,7 +15,6 @@ interface CustomError extends Error {
 
 // Load environment variables
 dotenv.config()
-console.log(dotenv.config());
 
 // Connect to MongoDB
 connectDB();

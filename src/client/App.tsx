@@ -1,25 +1,34 @@
-// import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
-// import LoginPage from './pages/Login/loginpage.jsx';
-// import Dashboard from './pages/Dashboard/Dashboard.jsx'
-// import { ThemeProvider } from './components/dark-mode-provider/theme-provider';
-// import { RecoilRoot } from 'recoil';
-// import PrivateRoute from './components/private-route/private-route.jsx';
+//Author: Gurleen Wadhwa.
+//Required Packages
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { RecoilRoot } from 'recoil';
 
-// function App() {
-//   return (
-//     <>
-//       <RecoilRoot>
-//         <ThemeProvider defaultTheme='light' storageKey='vite-ui-theme'>
-//           <BrowserRouter>
-//             <Routes>
-//               <Route path="/" element={<LoginPage />} />
-//               <PrivateRoute path="/home" element={<Dashboard />} />
-//             </Routes>
-//           </BrowserRouter>
-//         </ThemeProvider>
-//       </RecoilRoot>
-//     </>
-//   )
-// }
+//Helpers
+import { ThemeProvider } from './helper/dark-mode-provider/theme-provider';
 
-// export default App
+//Components
+import LoginPage from './pages/Login/loginpage';
+import PrivateRoute from './helper/private-route/private-route';
+import DashboardPage from './pages/Dashboard/DashboardPage';
+
+const App:React.FC = () => {
+  return (
+    <>
+      <RecoilRoot>
+        <ThemeProvider defaultTheme='light' storageKey='vite-ui-theme'>
+          <BrowserRouter>
+            <Routes>
+              <Route element={<PrivateRoute/>}>
+                <Route path="/" element={<DashboardPage />} />
+              </Route>
+
+              <Route path="/login" element={<LoginPage />} />
+            </Routes>
+          </BrowserRouter>
+        </ThemeProvider>
+      </RecoilRoot>
+    </>
+  )
+}
+
+export default App

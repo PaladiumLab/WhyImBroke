@@ -3,11 +3,6 @@ import { authAtom } from "../../state/atoms/authAtom";
 import { userAtom } from "../../state/atoms/userAtom";
 import axios, { AxiosResponse } from 'axios';
 
-// Add this interface for environment variables
-interface ImportMetaEnv {
-    readonly VITE_BACKEND_API_URL_LOCAL: string;
-}
-
 interface AuthResponse {
     token: string,
     response: string
@@ -18,14 +13,10 @@ interface UserData {
     name?: string
 }
 
+const baseURL = import.meta.env.VITE_BACKEND_API_URL_LOCAL
+const queryURL = `${baseURL}/auth/login`
+
 function useAuth(){
-    // Get env variable safely
-    const baseURL = import.meta.env.VITE_BACKEND_API_URL_LOCAL
-    const queryURL = `${baseURL}/auth/login`
-    
-    console.log('All env vars:', import.meta.env.development);
-    console.log('Environment URL:', baseURL); // Debug log
-    console.log('Full query URL:', queryURL);  // Debug log
     const setAuth = useSetRecoilState(authAtom);
     const setUser = useSetRecoilState(userAtom);
 
@@ -45,7 +36,7 @@ function useAuth(){
             //TODO: need to make changes here, it is currently undefined, because json webtoken is not currently decoded.
             // setUser({email: data.email, name: data.name});
 
-            return response;
+            return response.data;
         } catch (error) {
             if (error.response && error.response.data) {
                 throw new Error(error.response.data.message || 'Login failed');
