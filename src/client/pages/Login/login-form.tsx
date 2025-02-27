@@ -64,7 +64,6 @@ export function LoginForm({
       setError("");
 
       try {
-        console.log("control reaches here");
         login(email, password);
       } catch (error) {
         setError(error.message);

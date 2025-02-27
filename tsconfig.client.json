@@ -13,11 +13,11 @@
       "noImplicitAny": false,
       "allowArbitraryExtensions": true,
       "paths": {
-        "@/*": ["client/*"],
-        "@/components/*": ["client/components/*"],
-        "@/lib/*": ["client/lib/*"],
-        "@/pages/*": ["client/pages/*"],
-        "@/helper/*": ["client/helper/*"]
+        "@/*": ["src/client/*"],
+        "@/components/*": ["src/client/components/*"],
+        "@/lib/*": ["src/client/lib/*"],
+        "@/pages/*": ["src/client/pages/*"],
+        "@/helper/*": ["src/client/helper/*"]
       }
     },
     "include": ["src/client/**/*", "src/shared/**/*"],

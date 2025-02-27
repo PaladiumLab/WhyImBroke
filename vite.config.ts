@@ -14,9 +14,6 @@ export default defineConfig({
       'client': path.resolve(__dirname, './src/client'),
       'api': path.resolve(__dirname, './src/api'),
       'shared': path.resolve(__dirname, './src/shared')
-      // "client": "/src/client",
-      // "api": "/src/api",
-      // "shared": "/src/shared"
     },
   },
   build: {
