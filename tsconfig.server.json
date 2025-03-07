@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+      "target": "ESNext",
+      "module": "NodeNext",
+      "moduleResolution": "NodeNext",
+      "jsx": "react-jsx",
+      "strict": false,
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "outDir": "dist/api",
+      "rootDir": "src/api",
+      "baseUrl": "src",
+      "noImplicitAny": false,
+      "allowSyntheticDefaultImports": true,
+      "resolveJsonModule": true,
+      "paths": {
+        "api/*": ["src/api/*"],
+        "shared/*": ["src/shared/*"]
+      }
+    },
+    "include": ["src/api/**/*", "src/types/**/*", "src/shared/**/*"],
+    "exclude": ["node_modules", "dist"]
+  }
