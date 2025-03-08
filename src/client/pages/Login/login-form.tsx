@@ -1,5 +1,5 @@
 //Hooks and libraries in use
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useRecoilValue } from "recoil";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth/useAuth";
@@ -10,7 +10,7 @@ import { authAtom } from "../../state/atoms/authAtom";
 import { isAuthenticatedSelector } from "../../state/atoms/authAtom";
 
 //ShadCN UI components in use
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -22,14 +22,25 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
+// Define interface for component props
+interface LoginFormProps extends React.HTMLAttributes<HTMLDivElement> {
+  className?: string;
+}
+
+// Define interface for credentials
+interface Credentials {
+  [key: string]: string;
+}
+
 export function LoginForm({
   className,
   ...props
-}) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+}: LoginFormProps): JSX.Element {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
+  const [credentials, setCredentials] = useState<Credentials>({});
   const currentUser = useRecoilValue(userAtom);
   const isAuthenticated = useRecoilValue(isAuthenticatedSelector);
 
@@ -44,35 +55,21 @@ export function LoginForm({
     }
   }, [isAuthenticated, navigate]);
 
-  // const handleSubmit = useCallBack( async (e) => {
-  //     e.preventDefault();
-  //     setLoading(true);
-  //     setError("");
-
-  //     try {
-  //       await login(email, password);
-  //     } catch (error) {
-  //       setError(error.message);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  // }, [])
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
       setLoading(true);
       setError("");
 
       try {
-        login(email, password);
+        await login(email, password);
       } catch (error) {
-        setError(error.message);
+        setError((error as Error).message);
       } finally {
         setLoading(false);
       }
   }
 
-  const handleChange = (field) => (e) => {
+  const handleChange = (field:string) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setCredentials(prev => ({ ...prev, [field]: e.target.value }));
   };
 
@@ -108,7 +105,7 @@ export function LoginForm({
               </div>
               <div
                 className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
-                <span className="relative z-10 bg-background px-2 text-muted-foreground">
+                <span className="relative z-0 bg-background px-2 text-muted-foreground">
                   Or continue with
                 </span>
               </div>
