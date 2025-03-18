@@ -1,23 +1,49 @@
+import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import Users from "../db/userModel.js";
+import Users from "../db/userModel";
 
-function authMiddleware(req, res, next) {
+interface JwtPayload {
+    id: string;
+    email?: string;
+    iat: number;
+    exp?: number;
+}
+
+const authMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     //Here we get our JWT token as part of the headers in our request
-    const token = req.headers.authorization;
-    const words = token.split(" ");
-    const jwtToken = words[1];
+    const authHeader = req.headers.authorization;
 
-    //Now we verify and decode the JWT token to authenticate the user
-    const decodedToken = jwt.verify(jwtToken, process.env.JWT_SECRET);
+    //Checking if the authHeader is in the right format:
+    if(!authHeader || !authHeader.startsWith("Bearer")) {
+        res.status(401).json({ message: "No Token provided" })
+        return;
+    }
 
-    //If an email is
-    if(decodedToken.email){
-        req.email = decodedToken.email;
+    const token = authHeader.split(" ")[1];
+
+    try {
+        //Now we verify and decode the JWT token to authenticate the user
+        const decodedToken = jwt.verify(token, process.env.JWT_SECRET) as JwtPayload;
+
+        //EDIT:
+        // We now encode a user._id and not email now, this improves privacy.
+        if(!decodedToken.id){
+            res.status(401).json({message: "Token is missing user ID"});
+            return;
+        }
+
+        req.user = {
+            id: decodedToken.id,
+            email: decodedToken.email
+        };
+
         next();
-    }else{
-        res.status(411).json({
-            message: "Account cannot be authenticated!"
-        })
+    } catch (error) {
+        if (error instanceof jwt.JsonWebTokenError){
+            res.status(401).json({message: "Invalid or expired token"});
+        } else{
+            res.status(500).json({ message: "Authentication error:", error: (error as Error).message });
+        }
     }
 }
 
