@@ -47,8 +47,8 @@ userSchema.pre('save', async function (next) {
 })
 
 // Match password during login
-userSchema.methods.matchPassword = async function (enteredPassword) {
-    return await bcrypt.compare(enteredPassword, this.password);
+userSchema.methods.matchPassword= async function (enteredPassword: String) {
+    return bcrypt.compare(enteredPassword, this.password);
 };
 
 export default mongoose.model('Users', userSchema);
