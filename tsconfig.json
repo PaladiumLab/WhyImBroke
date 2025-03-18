@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+      "baseUrl": ".",
+      "paths": {
+        "@/*": ["src/client/*"]
+      }
+    },
+    "references": [
+      { "path": "./tsconfig.client.json" },
+      { "path": "./tsconfig.server.json" }
+    ],
+    "include": [],
+    "exclude": ["node_modules", "dist"]
+  }
