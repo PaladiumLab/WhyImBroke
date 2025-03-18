@@ -1,6 +1,7 @@
-import { signup, login } from '../services/authService.ts';
+import { Request, Response } from 'express';
+import { signup, login, getMyUser } from '../services/authService';
 
-export const signupController = async (req, res) => {
+export const signupController = async (req: Request, res: Response) => {
   try {
     const { email, password, name } = req.body;
     await signup({ email, password, name });
@@ -10,7 +11,7 @@ export const signupController = async (req, res) => {
   }
 };
 
-export const loginController = async (req, res) => {
+export const loginController = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
     const { token } = await login({ email, password });
@@ -19,3 +20,23 @@ export const loginController = async (req, res) => {
     res.status(401).json({ error: error.message });
   }
 };
+
+export const getMyProfile = async (req: Request, res: Response) => {
+  try {
+    const email = req.user.email;
+    const user = getMyUser(email);
+    if(user !== null || user !== undefined){
+        res.status(200).json({
+            user: user
+        })
+    }else{
+        res.status(401).json({
+            error: "There is an error in retrieving Account Details at the moment!"
+        })
+    }
+  } catch (error) {
+      res.status(200).json({
+          error: error.message
+      })
+  }
+}

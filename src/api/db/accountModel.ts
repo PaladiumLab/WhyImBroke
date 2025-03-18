@@ -1,19 +1,46 @@
-const mongoose = require('mongoose');
+import mongoose, { Schema } from "mongoose";
+import { Account } from "../zod-schemas/accountZodSchemas";
 
-const accountsSchema = new mongoose.Schema({
+const accountsSchema = new Schema({
     userId: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: mongoose.Types.ObjectId,
         ref: 'Users',
         required: true,
     },
-    password: {      // Store hashed passwords and don't include in any queries!
+    accountType:{
         type: String,
-        required: true,
-        select: false
+        enum: ["savings", "checkings"]
     },
-    name: {
+    accountName: {
         type: String,
         required: true
     },
-});
-module.exports = mongoose.model('Accounts', accountsSchema);
+    currentAccountBalance: {
+        type: Number,
+        required: true
+    },
+    initialAccountBalance: {
+        type: Number,
+        required: true,
+    },
+    currency: {
+        type: String,
+        enum: ['CAD', 'USD', 'INR'],
+        required: true
+    },
+    plaidAccountId: {
+        type: String,
+        required: false
+    },
+    isActive: {
+        type: Boolean,
+        required: false
+    },
+    lastSync:{
+        type: Date,
+        required: false
+    }
+}, { timestamps: true}
+);
+
+export const AccountsModel =  mongoose.model<Account>('Accounts', accountsSchema);
