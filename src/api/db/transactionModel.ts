@@ -1,13 +1,14 @@
-import mongoose from "mongoose";
+import mongoose, { Schema, InferSchemaType } from "mongoose";
+import { Transaction } from "../zod-schemas/transactionZodSchemas";
 
-const transactionsSchema = new mongoose.Schema({
+const transactionsSchema = new Schema({
     userId: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'Users',
         required: true
     },
     accountId: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'Accounts',
         required: true
     },
@@ -15,32 +16,41 @@ const transactionsSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
-    type: {
+    transaction_type: {
         type: String,
         required: true,
         enum: ['expense', 'income', 'transfer'],
     },
     category: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'Category',
         required: false,
     },
     description: String,
     source: {
         type: String,
-        enum: ['plaid', 'csv', 'manual'],
+        enum: ['plaid', 'csv', 'manual', 'splitwise'],
     },
-    plaidAccountId: String, //Make sure this id is same one linked to your Plaid Account
+    plaidAccountId: {
+        type: String,
+        required: false
+    }, //Make sure this id is same one linked to your Plaid Account
     tags: [String],
-    location: {
-        type: {
-            type: String,
-            enum: ['Point']
-        },
-        coordinates: [Number]
+    metadata:{
+        type: [Object],
+        default: []
     }
 }, {
     timestamps: true
 });
 
-module.exports = mongoose.model('Transactions', transactionsSchema);
+export type TransactionDoc = Omit<Transaction, 'userId' | 'accountId' | 'category'> & {
+    _id: mongoose.Types.ObjectId;
+    userId: mongoose.Types.ObjectId;
+    accountId: mongoose.Types.ObjectId;
+    category?: mongoose.Types.ObjectId;
+    createdAt: Date;
+    updatedAt: Date;
+};
+
+export const TransactionModel =  mongoose.model<TransactionDoc>('Transactions', transactionsSchema);
